@@ -14,7 +14,9 @@ namespace FastDevIOProject.Models
         
         public string Numero { get; set; }
 
-        
+        public string Bairro { get; set; }
+
+
         public string Cep { get; set; }
 
         

@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using DevIO.App.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using DevIO.Data.Context;
 
 namespace DevIO.App
 {
@@ -37,6 +38,11 @@ namespace DevIO.App
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<MeuDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 

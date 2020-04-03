@@ -1,4 +1,4 @@
-﻿using FastDevIOProject.Models;
+﻿using DevIO.Business.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DevIO.Data.Context

@@ -1,4 +1,4 @@
-﻿namespace FastDevIOProject.Models
+﻿namespace DevIO.Business.Models
 {
     public enum TipoFornecedor
     {

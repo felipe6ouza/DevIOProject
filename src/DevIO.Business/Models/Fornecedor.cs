@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FastDevIOProject.Models
+namespace DevIO.Business.Models
 {
     public class Fornecedor : Entity
     {

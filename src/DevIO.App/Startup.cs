@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using DevIO.Data.Context;
 using DevIO.Data.Repository;
 using DevIO.Business.Interfaces;
+using AutoMapper;
 
 namespace DevIO.App
 {
@@ -53,6 +54,7 @@ namespace DevIO.App
             services.AddScoped<IFornecedorRepository, FornecedorRepository>();
             services.AddScoped<IEnderecoRepository, EnderecoRepository>();
 
+            services.AddAutoMapper(typeof(Startup));
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

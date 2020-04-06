@@ -16,6 +16,11 @@ namespace DevIO.App.ViewModels
 
         [Required(ErrorMessage = "O campo é {0} obrigatório")]
         [StringLength(200, ErrorMessage = "O campo {0} precisa ter entre {1} e {2} caracteres", MinimumLength = 2)]
+        public Guid FornecedorId { get; set; }
+
+
+        [Required(ErrorMessage = "O campo é {0} obrigatório")]
+        [StringLength(200, ErrorMessage = "O campo {0} precisa ter entre {1} e {2} caracteres", MinimumLength = 2)]
         public string Nome { get; set; }
 
         [DisplayName("Descrição")]
@@ -36,5 +41,7 @@ namespace DevIO.App.ViewModels
         public bool Ativo { get; set; }
 
         public FornecedorViewModel Fornecedor { get; set; }
+
+        public IEnumerable<FornecedorViewModel> Fornecedores { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using DevIO.App.Extensions;
 
 namespace DevIO.App.ViewModels
 {
@@ -32,12 +33,12 @@ namespace DevIO.App.ViewModels
         public IFormFile ImagemUpload { get; set; }
         public string Imagem { get; set; }
 
+        [Moeda]
         [Required(ErrorMessage = "O campo é {0} obrigatório")]
         public decimal Valor { get; set; }
 
         [ScaffoldColumn(false)]
         public DateTime DataCadastro { get; set; }
-
         [DisplayName("Ativo?")]
         public bool Ativo { get; set; }
 

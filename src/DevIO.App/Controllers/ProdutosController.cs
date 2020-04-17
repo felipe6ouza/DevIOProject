@@ -35,7 +35,6 @@ namespace DevIO.App.Controllers
 
         public async Task<IActionResult> Details(Guid id)
         {
-
             var produto = await ObterProduto(id);
            
             if (produto == null) return NotFound();

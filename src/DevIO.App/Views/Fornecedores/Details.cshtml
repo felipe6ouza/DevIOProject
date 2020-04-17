@@ -1,14 +1,13 @@
 ﻿@model DevIO.App.ViewModels.FornecedorViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalhes do Fornecedor";
 }
-
-<h2>Details</h2>
-
+<br/>
+<h4>@ViewData["Title"]</h4>
+<h6>Informações Somente Leitura</h6>
+<hr/>
 <div>
-    <h4>FornecedorViewModel</h4>
-    <hr />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Nome)
@@ -20,7 +19,7 @@
             @Html.DisplayNameFor(model => model.Documento)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Documento)
+            @this.FormatarDocumento(@Model.TipoFornecedor, @Model.Documento)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.TipoFornecedor)
@@ -36,7 +35,14 @@
         </dd>
     </dl>
 </div>
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
+    <a class="btn btn-secondary" href="javascript:window.history.back();">Voltar</a>
 </div>
+
+<div>
+    <partial name="_DetalhesEndereco"/>
+</div>
+
+

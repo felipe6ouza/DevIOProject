@@ -18,7 +18,7 @@ namespace DevIO.App.Extensions
             {
                 var moeda = Convert.ToDecimal(value, new CultureInfo("pt-BR"));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                return new ValidationResult("Moeda em formato inválido");
             }

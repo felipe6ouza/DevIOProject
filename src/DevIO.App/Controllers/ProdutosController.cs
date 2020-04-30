@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace DevIO.App.Controllers
 {
+    [Route("produtos")]
     public class ProdutosController : Controller
     {
         private readonly IProdutoRepository _produtoRepository;
@@ -27,11 +28,14 @@ namespace DevIO.App.Controllers
             _mapper = mapper;   
         }
 
+        [Route("lista-de-produtos")]
         public async Task<IActionResult> Index()
         {
             
             return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterProdutosFornecedores()));
         }
+
+        [Route("detalhes-de-produto/{id:guid}")]
 
         public async Task<IActionResult> Details(Guid id)
         {
@@ -42,6 +46,7 @@ namespace DevIO.App.Controllers
             return View(produto);
         }
 
+        [Route("criar-novo-produto")]
         public async Task<IActionResult> Create()
         {
            var produtoViewModel = await PopularFornecedores(new ProdutoViewModel());
@@ -72,7 +77,8 @@ namespace DevIO.App.Controllers
 
         }
 
-        
+        [Route("editar-produto/{id:guid}")]
+
         public async Task<IActionResult> Edit(Guid id)
         {
 
@@ -89,7 +95,6 @@ namespace DevIO.App.Controllers
         public async Task<IActionResult> Edit(Guid id, ProdutoViewModel produtoViewModel)
         {
             
-
             if (id != produtoViewModel.Id) return NotFound();
 
             var produtoAtualizacao = await ObterProduto(id);
@@ -122,6 +127,8 @@ namespace DevIO.App.Controllers
 
 
         }
+
+        [Route("remover-produto/{id:guid}")]
 
         public async Task<IActionResult> Delete(Guid id)
         {

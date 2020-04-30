@@ -9,6 +9,7 @@ using DevIO.Business.Interfaces;
 
 namespace DevIO.App.Controllers
 {
+    [Route("fornecedores")]
     public class FornecedoresController : Controller
     {
         private readonly IFornecedorRepository _fornecedorRepository;
@@ -21,11 +22,13 @@ namespace DevIO.App.Controllers
             _mapper = mapper;
         }
 
- 
+        [Route("lista-de-fornecedores")]
         public async Task<IActionResult> Index()
         {
             return View(_mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.ObterTodos()));
         }
+
+        [Route("detalhes-de-fornecedor/{id:guid}")]
 
         public async Task<IActionResult> Details(Guid id)
         {
@@ -35,7 +38,8 @@ namespace DevIO.App.Controllers
 
             return View(fornecedorViewModel);
         }
-
+        
+        [Route("criar-novo-fornecedor")]
         public IActionResult Create()
         {
             return View();
@@ -53,6 +57,9 @@ namespace DevIO.App.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+
+        [Route("editar-fornecedor/{id:guid}")]
 
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -75,6 +82,9 @@ namespace DevIO.App.Controllers
             await _fornecedorRepository.Atualizar(fornecedor);
             return RedirectToAction(nameof(Index));
         }
+
+
+        [Route("remover-fornecedor/{id:guid}")]
 
         public async Task<IActionResult> Delete(Guid id)
         {

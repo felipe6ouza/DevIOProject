@@ -10,15 +10,17 @@ using DevIO.Business.Interfaces;
 namespace DevIO.App.Controllers
 {
     [Route("fornecedores")]
-    public class FornecedoresController : Controller
+    public class FornecedoresController : BaseController
     {
         private readonly IFornecedorRepository _fornecedorRepository;
-
+        private readonly IFornecedorService _fornecedorService;
         private readonly IMapper _mapper;
 
-        public FornecedoresController(IFornecedorRepository fornecedorRepository, IMapper mapper)
+        public FornecedoresController(IFornecedorRepository fornecedorRepository, IMapper mapper,
+            IFornecedorService fornecedorService, INotificador notificador) : base(notificador)
         {
             _fornecedorRepository = fornecedorRepository;
+            _fornecedorService = fornecedorService;
             _mapper = mapper;
         }
 
@@ -46,6 +48,7 @@ namespace DevIO.App.Controllers
         }
 
         [HttpPost]
+        [Route("criar-novo-fornecedor")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(FornecedorViewModel fornecedorViewModel)
         {
@@ -53,7 +56,9 @@ namespace DevIO.App.Controllers
 
             var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
 
-            await _fornecedorRepository.Adicionar(fornecedor);
+            await _fornecedorService.Adicionar(fornecedor);
+
+            if (!OperacaoValida()) return View(fornecedorViewModel);
 
             return RedirectToAction(nameof(Index));
         }
@@ -71,6 +76,7 @@ namespace DevIO.App.Controllers
         }
 
         [HttpPost]
+        [Route("editar-fornecedor/{id:guid}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, FornecedorViewModel fornecedorViewModel)
         {
@@ -79,7 +85,8 @@ namespace DevIO.App.Controllers
             if (!ModelState.IsValid) return View(fornecedorViewModel);
 
             var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
-            await _fornecedorRepository.Atualizar(fornecedor);
+            await _fornecedorService.Atualizar(fornecedor);
+            if (!OperacaoValida()) return View(fornecedorViewModel);
             return RedirectToAction(nameof(Index));
         }
 
@@ -97,6 +104,7 @@ namespace DevIO.App.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Route("remover-fornecedor/{id:guid}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
@@ -104,7 +112,11 @@ namespace DevIO.App.Controllers
 
             if (fornecedorViewModel == null) return NotFound();
 
-            await _fornecedorRepository.Remover(id);
+            await _fornecedorService.Remover(id);
+            if (!OperacaoValida()) return View(fornecedorViewModel);
+
+            TempData["Sucesso"] = "Fornecedor excluido com sucesso";
+
 
             return RedirectToAction(nameof(Index));
         }

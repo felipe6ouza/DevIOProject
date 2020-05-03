@@ -12,18 +12,20 @@ using Microsoft.AspNetCore.Http;
 namespace DevIO.App.Controllers
 {
     [Route("produtos")]
-    public class ProdutosController : Controller
+    public class ProdutosController : BaseController
     {
         private readonly IProdutoRepository _produtoRepository;
-
+        private readonly IProdutoService _produtoService;
         private readonly IFornecedorRepository _fornecedorRepository;
         private readonly IMapper _mapper;
 
         public ProdutosController(IProdutoRepository produtoRepository, 
                                   IFornecedorRepository fornecedorRepository,
-                                  IMapper mapper)
+                                  IMapper mapper, IProdutoService produtoService, 
+                                  INotificador notificador) : base(notificador)
         {
             _produtoRepository = produtoRepository;
+            _produtoService = produtoService;
             _fornecedorRepository = fornecedorRepository;
             _mapper = mapper;   
         }
@@ -54,6 +56,7 @@ namespace DevIO.App.Controllers
         }
 
         [HttpPost]
+        [Route("criar-novo-produto")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProdutoViewModel produtoViewModel)
         {
@@ -71,7 +74,10 @@ namespace DevIO.App.Controllers
 
             produtoViewModel.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
 
-            await _produtoRepository.Adicionar( _mapper.Map<Produto>(produtoViewModel));
+            await _produtoService.Adicionar( _mapper.Map<Produto>(produtoViewModel));
+
+            if (!OperacaoValida()) return View(produtoViewModel);
+
 
             return RedirectToAction("Index");
 
@@ -91,6 +97,7 @@ namespace DevIO.App.Controllers
         }
 
         [HttpPost]
+        [Route("editar-produto/{id:guid}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, ProdutoViewModel produtoViewModel)
         {
@@ -121,7 +128,9 @@ namespace DevIO.App.Controllers
             produtoAtualizacao.Valor = produtoViewModel.Valor;
             produtoAtualizacao.Ativo = produtoViewModel.Ativo;
 
-            await _produtoRepository.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
+            await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
+
+            if (!OperacaoValida()) return View(produtoViewModel);
 
             return RedirectToAction(nameof(Index));
 
@@ -140,6 +149,7 @@ namespace DevIO.App.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Route("remover-produto/{id:guid}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
@@ -147,7 +157,11 @@ namespace DevIO.App.Controllers
 
             if (produto == null) return NotFound();
 
-            await  _produtoRepository.Remover(id);
+            await _produtoService.Remover(id);
+
+            if (!OperacaoValida()) return View(produto);
+
+            TempData["Sucesso"] = "Produto excluído com sucesso!";
 
             return RedirectToAction(nameof(Index));
         }

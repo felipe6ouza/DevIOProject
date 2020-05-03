@@ -6,7 +6,7 @@
 
 <h2 style="padding-top: 30px; font-size: 26px; font-weight: bold; ">@ViewData["Title"]</h2>
 <h4 style="font-size: 22px;">Essa ação será permanente!</h4>
-<hr/>
+<hr />
 
 <div class="row">
     <div class="col-md-4">
@@ -45,13 +45,13 @@
                 @Html.DisplayFor(model => model.Ativo)
             </dd>
         </dl>
-        
+
         <form style="padding-top: 50px" asp-action="Delete">
             <input type="hidden" asp-for="Id" />
-            <input type="submit" value="Excluir" class="btn btn-danger" /> 
+            <input type="submit" value="Excluir" class="btn btn-danger" />
             <a class="btn btn-secondary" href="javascript:window.history.back();">Voltar</a>
         </form>
-        
+
     </div>
-    
+
 </div>

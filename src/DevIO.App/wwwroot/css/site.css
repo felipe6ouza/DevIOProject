@@ -90,6 +90,13 @@ input, select, textarea, file {
     .pc-adjusment {
         margin-right: 20px;
     }
+
+    .pc-alignment-text {
+        padding-top:12px;
+    }
+    .pc-alignment-buttom {
+        margin-top: 6px;
+    }
 }
 
 @media (max-width: 600px) {
